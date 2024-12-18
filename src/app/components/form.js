@@ -7,27 +7,33 @@ const MultiStepForm = () => {
     lastName: "",
     username: "",
     email: "",
+    phonenumber: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({});
 
-  const validateStep1 = () => {
+  const Step1 = () => {
     const newErrors = {};
     if (!formData.firstName) newErrors.firstName = "First name is required";
     if (!formData.lastName) newErrors.lastName = "Last name is required";
     if (!formData.username) newErrors.username = "Username is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.phonenumber)
+      newErrors.phonenumber = "Phone number is required";
+    if (!formData.password) newErrors.password = "Password  is required";
     return newErrors;
   };
 
   const handleNext = () => {
-    let validationErrors = {};
-    if (step === 1) validationErrors = validateStep1();
+    let errors = {};
+    if (step === 1) errors = Step1();
 
-    if (Object.keys(validationErrors).length === 0) {
+    if (Object.keys(errors).length === 0) {
       setErrors({});
       setStep(step + 1);
     } else {
-      setErrors(validationErrors);
+      setErrors(errors);
     }
   };
 
@@ -39,12 +45,11 @@ const MultiStepForm = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <img className="" src="pineconelogo.png" />
-        <h1 className="text-2xl font-bold mb-4 text-center "> Join Us! 😎</h1>
-        <p className="text-gray-600 mb-6 text-center">
-          Step {step} of 3 - Please provide all current information accurately.
+        <img className="ml-4" src="pineconelogo.png" />
+        <h1 className="text-2xl font-bold mb-4 text-l-[] "> Join Us! 😎</h1>
+        <p className="text-gray-600 mb-6 ">
+          Please provide all current information accurately.
         </p>
-
         {step === 1 && (
           <div>
             <div className="mb-4">
@@ -105,38 +110,85 @@ const MultiStepForm = () => {
             </div>
 
             <button
-              onClick={handleNext}
+              onClick={() => setStep(2)}
               className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-[#777cce] transition"
             >
               Continue
             </button>
           </div>
         )}
-
         {step === 2 && (
           <div>
-            <p className="mb-4 text-gray-700">Please provide your email.</p>
+            <p className="mb-4 text-gray-700">Email</p>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-md ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              } rounded-md`}
               placeholder="Enter your email"
-              className="w-full px-3 py-2 border rounded-md"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+
+            <p className="mb-3 mt-3 text-gray-700 ">Phone number</p>
+            <input
+              type="text"
+              name="phone number"
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-md ${
+                errors.phonenumber ? "border-red-500" : "border-gray-300"
+              } rounded-md`}
+              placeholder="Enter your phone number"
+            />
+            {errors.phonenumber && (
+              <p className="text-red-500 text-sm mt-1">{errors.phonenumber}</p>
+            )}
+
+            <p className="mb-3 mt-3 text-gray-700">Password</p>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              className={`w-full px-3 py-2 border rounded-md ${
+                errors.password ? "border-red-500" : "border-gray-300"
+              } rounded-md`}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
+
             <button
               onClick={() => setStep(3)}
-              className="w-full mt-4 bg-black text-white py-2 px-4 rounded-md hover:bg-[#777cce] transition"
+              className="w-[280px] mt-4 bg-black text-white py-2 px-4 rounded-md hover:bg-[#777cce] transition "
             >
               Continue
+            </button>
+            <button
+              onClick={() => setStep(1)}
+              className="w-[128px] h-[44px] rounded-md bg-black text-white hover:bg-[#777cce] transition px-3 py-3 flex items-center justify-center"
+            >
+              Back
             </button>
           </div>
         )}
 
         {step === 3 && (
           <div className="text-center">
-            <p className="text-xl font-semibold mb-4">You're all set! 🎉</p>
+            <p className="text-xl font-semibold mb-4">You're all set! 🔥 </p>
             <p className="text-gray-700">Welcome, {formData.firstName}!</p>
+
+            <button
+              onClick={() => setStep(2)}
+              className="w-full mt-4 bg-black text-white py-2 px-4 rounded-md hover:bg-[#777cce] transition"
+            >
+              Back
+            </button>
           </div>
         )}
       </div>
