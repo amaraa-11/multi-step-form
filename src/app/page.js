@@ -41,7 +41,7 @@ const MultiStepForm = () => {
   const validateStep2 = () => {
     const newErrors = {};
     const emailRegex = /\S+@\S+\.\S+/;
-
+    const phoneRegex = /[0-9]/;
     if (!formData.email)
       newErrors.email = "Please provide a valid email address.";
     else if (!emailRegex.test(formData.email))
@@ -49,7 +49,8 @@ const MultiStepForm = () => {
 
     if (!formData.phonenumber)
       newErrors.phonenumber = "Please enter a valid phone number.";
-
+    else if (!phoneRegex.test(formData.phonenumber))
+      newErrors.phonenumber = "Please enter a valid phone number.";
     if (!formData.password) newErrors.password = "Password is required.";
     else if (formData.password.length < 8)
       newErrors.password = "Password must be at least 8 characters.";
